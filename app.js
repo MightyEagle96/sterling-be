@@ -8,6 +8,10 @@ const app = express();
 
 ConnectDatabase();
 const PORT = process.env.PORT || 3112;
+
+app.get("/", (req, res) => {
+  res.json({ message: "Server is alive" });
+});
 app.listen(PORT, () => {
   console.log(`Server is listening on ${PORT}`);
 });
