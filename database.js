@@ -3,10 +3,14 @@ import dotenv from "dotenv";
 
 dotenv.config();
 const DATABASE_LOCAL = process.env.DATABASE_LOCAL;
+const DATABASE_ONLINE = process.env.DATABASE_ONLINE;
+
+const DATABASE =
+  process.env.NODE_ENV === "production" ? DATABASE_ONLINE : DATABASE_LOCAL;
 
 export const ConnectDatabase = () => {
   mongoose
-    .connect(DATABASE_LOCAL, {})
+    .connect(DATABASE, {})
     .then(() => {
       console.log("database connected successfully");
     })
