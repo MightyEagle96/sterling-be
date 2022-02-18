@@ -1,5 +1,3 @@
-import crypto from "crypto";
+import { randomUUID } from 'crypto';
 
-const token = crypto.randomBytes(80).toString("hex");
-
-console.log(token);
+console.log(randomUUID());

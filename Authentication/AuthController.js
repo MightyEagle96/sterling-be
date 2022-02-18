@@ -3,6 +3,7 @@ import Account from '../models/account.js';
 import { createAccessToken, sendAccessToken } from './token.js';
 import bcrypt from 'bcrypt';
 import { OAuth2Client } from 'google-auth-library';
+import isAuth from './isAuth.js';
 
 export const CreateAccount = async (req, res) => {
   try {
@@ -40,7 +41,7 @@ export const GoogleAccount = async (req, res) => {
   const { tokenId } = req.body;
   const ticket = await client.verifyIdToken({
     idToken: tokenId,
-    audience: process.env.REACT_APP_GOOGLE_CLIENT_ID,
+    audience: process.env.GOOGLE_CLIENT_ID,
   });
   const accessToken = tokenId;
   const { name, email, picture } = ticket.getPayload();
@@ -64,4 +65,17 @@ export const GoogleAccount = async (req, res) => {
     user,
     accessToken,
   });
+};
+
+export const IsLoggedIn = async (req, res, next) => {
+  try {
+    const userId = isAuth(req, res);
+    if (userId) {
+      const account = await Account.findById(userId);
+      req.account = account;
+    }
+  } catch (error) {
+    return res.status(401).json({ message: 'invalid token' });
+  }
+  next();
 };

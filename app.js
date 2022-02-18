@@ -6,6 +6,7 @@ import morgan from 'morgan';
 import { ConnectDatabase } from './database.js';
 import authRouter from './routers/Auth/AuthRouter.js';
 import { originUrl } from './services.js';
+import orgRouter from './routers/Organisation/OrgRouter.js';
 
 dotenv.config();
 
@@ -24,7 +25,7 @@ app.use(express.json());
 app.get('/', (req, res) => {
   res.json({ message: 'Server is alive' });
 });
-app.use(authRouter);
+app.use(authRouter).use(orgRouter);
 app.use('*', (req, res) => {
   res.json({ message: 'Cannot find this route on this server' });
 });

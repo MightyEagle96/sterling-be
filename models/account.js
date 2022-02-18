@@ -15,6 +15,7 @@ const accountSchema = new Schema({
   isVerified: { type: Boolean, default: false },
   picture: String,
   authenticatedBy: String,
+  organisation: { type: Schema.Types.ObjectId, ref: 'Organisation' },
 });
 
 accountSchema.pre('save', async function (next) {
