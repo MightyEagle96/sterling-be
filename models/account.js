@@ -1,4 +1,5 @@
-import { Schema, model } from 'mongoose';
+import mongoose from 'mongoose';
+const { Schema, model } = mongoose;
 import bcrypt from 'bcrypt';
 
 const accountSchema = new Schema({
@@ -9,13 +10,17 @@ const accountSchema = new Schema({
     lowerCase: true,
     required: true,
   },
-  password: { type: String, required: true },
+  password: { type: String },
   role: String,
-  isVerified: { type: Boolean, default: true },
+  isVerified: { type: Boolean, default: false },
+  picture: String,
+  authenticatedBy: String,
 });
 
 accountSchema.pre('save', async function (next) {
-  this.password = await bcrypt.hash(this.password, 12);
+  if (this.password) {
+    this.password = await bcrypt.hash(this.password, 12);
+  }
   next();
 });
 

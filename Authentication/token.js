@@ -1,4 +1,7 @@
-import { sign } from 'jsonwebtoken';
+/* eslint-disable no-undef */
+import jwt from 'jsonwebtoken';
+
+const { sign } = jwt;
 
 const createAccessToken = (id) => {
   return sign(
@@ -21,7 +24,12 @@ const createRefreshToken = (id) => {
 };
 
 const sendAccessToken = (user, req, res, accessToken) => {
-  res.json({ accessToken, user });
+  res.json({
+    accessToken,
+    user,
+    message: 'Welcome back to Sterling',
+    title: 'Success',
+  });
 };
 
 const sendRefreshToken = (req, res, refreshToken) => {
