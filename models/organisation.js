@@ -10,14 +10,12 @@ const organisationSchema = new Schema({
 });
 
 organisationSchema.pre('save', function (next) {
-  function GenerateId() {
-    const uuid = randomUUID().split('-')[0];
-    this.organisationId = uuid;
-  }
   try {
-    GenerateId();
+    const uuid = randomUUID().split('-')[0];
+    this.organisationId = `${uuid}`;
   } catch (error) {
-    GenerateId();
+    const uuid = randomUUID().split('-')[0];
+    this.organisationId = `${uuid}`;
   }
   next();
 });
