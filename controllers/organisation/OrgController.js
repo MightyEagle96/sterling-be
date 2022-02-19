@@ -6,7 +6,15 @@ export const CreateOrganisation = async (req, res) => {
     await organisation.create(req.body);
     res.status(201).json({ message: 'New Organisation Created' });
   } catch (error) {
-    console.log(error);
+    res.status(500).json({ message: 'Something bad happened on the server' });
+  }
+};
+
+export const ViewOrganisations = async (req, res) => {
+  try {
+    const organisations = await organisation.find({ admin: req.account._id });
+    res.json({ organisations });
+  } catch (error) {
     res.status(500).json({ message: 'Something bad happened on the server' });
   }
 };

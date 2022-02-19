@@ -1,5 +1,7 @@
+/* eslint-disable no-undef */
 import jwt from 'jsonwebtoken';
 const { verify } = jwt;
+import { OAuth2Client } from 'google-auth-library';
 const isAuth = (req, res) => {
   const authorization = req.headers['authorization'];
   if (!authorization)
@@ -16,4 +18,22 @@ const isAuth = (req, res) => {
   return id;
 };
 
-export default isAuth;
+const googleAuth = async (req, res) => {
+  const authorization = req.headers['authorization'];
+  if (!authorization)
+    return res.status(401).json({ message: 'You are not logged in' });
+
+  const token = authorization.split(' ')[1];
+
+  const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+
+  const ticket = await client.verifyIdToken({
+    idToken: token,
+    audience: process.env.GOOGLE_CLIENT_ID,
+  });
+
+  const { email } = ticket.getPayload();
+
+  return email;
+};
+export { isAuth, googleAuth };

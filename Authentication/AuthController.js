@@ -3,7 +3,7 @@ import Account from '../models/account.js';
 import { createAccessToken, sendAccessToken } from './token.js';
 import bcrypt from 'bcrypt';
 import { OAuth2Client } from 'google-auth-library';
-import isAuth from './isAuth.js';
+import { googleAuth, isAuth } from './isAuth.js';
 
 export const CreateAccount = async (req, res) => {
   try {
@@ -69,9 +69,15 @@ export const GoogleAccount = async (req, res) => {
 
 export const IsLoggedIn = async (req, res, next) => {
   try {
-    const userId = isAuth(req, res);
-    if (userId) {
-      const account = await Account.findById(userId);
+    if (req.headers.authenticatedby === 'jwt') {
+      const userId = isAuth(req, res);
+      if (userId) {
+        const account = await Account.findById(userId);
+        req.account = account;
+      }
+    } else if (req.headers.authenticatedby === 'google') {
+      const email = await googleAuth(req, res);
+      const account = await Account.findOne({ email });
       req.account = account;
     }
   } catch (error) {
