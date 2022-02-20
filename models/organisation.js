@@ -4,7 +4,7 @@ import { randomUUID } from 'crypto';
 
 const organisationSchema = new Schema({
   admin: { type: Schema.Types.ObjectId, ref: 'Account' },
-  name: String,
+  organisationName: String,
   organisationId: { type: String, unique: true },
   users: [{ type: Schema.Types.ObjectId, ref: 'Account' }],
 });
