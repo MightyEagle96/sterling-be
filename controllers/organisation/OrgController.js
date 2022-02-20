@@ -2,6 +2,11 @@ import organisation from '../../models/organisation.js';
 
 export const CreateOrganisation = async (req, res) => {
   try {
+    if (!req.body.organisationName) {
+      return res
+        .status(400)
+        .json({ title: 'Error', message: 'An organisation must have a name' });
+    }
     req.body.admin = req.account._id;
     await organisation.create(req.body);
     res

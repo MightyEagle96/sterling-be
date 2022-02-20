@@ -19,6 +19,9 @@
   },
   "homepage": "https://github.com/MightyEagle96/sterling-be#readme",
   "dependencies": {
+    "@emotion/react": "^11.8.1",
+    "@emotion/styled": "^11.8.1",
+    "@mui/material": "^5.4.2",
     "bcrypt": "^5.0.1",
     "const": "^1.0.0",
     "cors": "^2.8.5",
