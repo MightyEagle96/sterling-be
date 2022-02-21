@@ -20,8 +20,11 @@ app.use(express.static('public'));
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
+
 app.use(cors({ origin: originUrl, credentials: true }));
 app.use(express.json());
+app.use(express.json({ limit: '50mb' }));
+
 app.get('/', (req, res) => {
   res.json({ message: 'Server is alive' });
 });

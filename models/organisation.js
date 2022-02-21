@@ -6,6 +6,7 @@ const organisationSchema = new Schema({
   admin: { type: Schema.Types.ObjectId, ref: 'Account' },
   organisationName: String,
   organisationId: { type: String, unique: true },
+  profilePhoto: String,
   users: [{ type: Schema.Types.ObjectId, ref: 'Account' }],
 });
 
