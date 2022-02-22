@@ -7,6 +7,10 @@ import {
   ViewOrganisations,
   ViewOrganisation,
 } from '../../controllers/organisation/OrgController.js';
+import {
+  CreateProduct,
+  UploadProductImages,
+} from '../../controllers/organisation/ProductController.js';
 
 const orgRouter = express.Router();
 
@@ -20,6 +24,12 @@ orgRouter
     UploadOrganisationPhoto
   )
   .get('/viewOrganisations', ViewOrganisations)
-  .get('/viewOrganisation/:id', ViewOrganisation);
+  .get('/viewOrganisation/:id', ViewOrganisation)
+  .post('/createProduct', CreateProduct)
+  .patch(
+    '/uploadProductImages/:id',
+    upload.array('image', 4),
+    UploadProductImages
+  );
 
 export default orgRouter;

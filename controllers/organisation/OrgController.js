@@ -44,7 +44,6 @@ export const UploadOrganisationPhoto = async (req, res) => {
     req.file.mimetype.split('/')[1]
   }`;
 
-  console.log(newFileName);
   const filePath = `public/images/${newFileName}`;
 
   fs.rename(`public/images/${req.file.filename}`, filePath, async () => {});
@@ -71,7 +70,6 @@ export const UploadOrganisationPhoto = async (req, res) => {
 
     switch (response.status) {
       case 200:
-        console.log(response.data.id);
         await organisation.findByIdAndUpdate(req.params.id, {
           profilePhoto: `https://drive.google.com/uc?id=${response.data.id}`,
         });
@@ -84,16 +82,13 @@ export const UploadOrganisationPhoto = async (req, res) => {
   }
 
   CreateAndUploadFile(auth).catch((error) => {
-    console.log(error);
-
     res.status(500).json({ message: 'Something terrible happened' });
   });
 
   fs.unlink(filePath, (err) => {
     if (err) {
-      console.log(err);
+      throw err;
     }
-    console.log('File deleted');
   });
 };
 
