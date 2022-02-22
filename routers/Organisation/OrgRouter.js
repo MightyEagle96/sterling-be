@@ -10,12 +10,14 @@ import {
 import {
   CreateProduct,
   UploadProductImages,
+  ViewProducts,
 } from '../../controllers/organisation/ProductController.js';
 
 const orgRouter = express.Router();
 
 const upload = multer({ dest: 'public/images' });
 orgRouter
+  .get('/products', ViewProducts)
   .use(IsLoggedIn)
   .post('/createOrganisation', CreateOrganisation)
   .post(
