@@ -32,11 +32,6 @@ export const UploadProductImages = async (req, res) => {
     );
 
     CreateAndUploadFile(auth, newFileName, req.files[i], filePath);
-    fs.unlink(filePath, (err) => {
-      if (err) {
-        throw err;
-      }
-    });
   }
   async function CreateAndUploadFile(auth, newFileName, file, filePath) {
     const driveService = google.drive({ version: 'v3', auth });
@@ -63,6 +58,11 @@ export const UploadProductImages = async (req, res) => {
           $push: {
             images: `https://drive.google.com/uc?id=${response.data.id}`,
           },
+        });
+        fs.unlink(filePath, (err) => {
+          if (err) {
+            throw err;
+          }
         });
         break;
 
