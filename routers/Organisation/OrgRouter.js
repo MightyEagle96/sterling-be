@@ -33,5 +33,6 @@ orgRouter
     upload.array('image', 4),
     UploadProductImages
   );
+//.post('/deletePhotos', DeletePhotos);
 
 export default orgRouter;

@@ -59,11 +59,7 @@ export const UploadProductImages = async (req, res) => {
             images: `https://drive.google.com/uc?id=${response.data.id}`,
           },
         });
-        fs.unlink(filePath, (err) => {
-          if (err) {
-            throw err;
-          }
-        });
+
         break;
 
       default:
@@ -72,9 +68,25 @@ export const UploadProductImages = async (req, res) => {
   }
 
   res.status(201).json({ title: 'Created', message: 'Product Created' });
+  DeletePhotos();
 };
 
 export const ViewProducts = async (req, res) => {
   const products = await product.find(req.query);
   res.json({ products });
 };
+
+function DeletePhotos() {
+  const folder = 'public/images';
+  fs.readdir(folder, (err, files) => {
+    if (err) console.log(err);
+
+    files.forEach((file) => {
+      fs.unlink(`${folder}/${file}`, (err) => {
+        if (err) {
+          throw err;
+        }
+      });
+    });
+  });
+}

@@ -1,3 +1,2 @@
-import { randomUUID } from 'crypto';
-
-console.log(randomUUID());
+const values = Math.random() * 4;
+console.log(Math.floor(values));
